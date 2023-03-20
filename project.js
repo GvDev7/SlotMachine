@@ -112,9 +112,30 @@ const printSlotRows = (rows) => {
     }
 }
 
+const getWinnings = (rows, bet, lines) => {
+    let winnings = 0;
+    for(let row = 0; row < lines; row++) {
+        const symbols = rows[row];
+        let allSame = true;
+
+        for(const symbol of symbols) {
+            if(symbol != symbols[0]){
+                allSame = false;
+                break;
+            }
+        }
+
+        if(allSame) {
+            winnings += bet * SYMBOLS_VALUE[symbols[0]] 
+        }
+    }
+    return winnings;
+}
+
 let currentBalance = deposit();
 const numberOfLines = getNumberOfBettingLines();
 const bet = getBet(currentBalance, numberOfLines);
 const reels = spinMachine();
 const rows = transpose(reels);
 printSlotRows(rows);
+const winnings = getWinnings(rows, bet, numberOfLines)
